@@ -35,6 +35,6 @@ public class JavacCompiler {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        com.sun.tools.javac.Main.compile(args,out);
+        //com.sun.tools.javac.Main.compile(args,out);
     }
 }

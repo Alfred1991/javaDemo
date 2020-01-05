@@ -1,12 +1,9 @@
 package org.xiaofengcanyue.generic;
 
-import org.omg.CORBA.OBJ_ADAPTER;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -204,4 +201,5 @@ public class AboutGeneric {
             return "";
         }
     }
+
 }
