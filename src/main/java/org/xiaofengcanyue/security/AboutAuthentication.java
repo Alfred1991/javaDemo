@@ -1,10 +1,14 @@
 package org.xiaofengcanyue.security;
 
+import javax.security.auth.Subject;
 import javax.security.auth.callback.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.security.auth.login.*;
+import javax.security.auth.spi.LoginModule;
+import java.io.*;
 import java.security.Principal;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public class AboutAuthentication {
     /**
@@ -68,6 +72,99 @@ public class AboutAuthentication {
                     throw new UnsupportedCallbackException(callback);
                 }
             }
+        }
+    }
+
+    /**
+     * 对于login方法，返回true表明该登录模块所执行的身份认证操作是成功的。如果返回false，说明该模块在当前登录过程中被忽略。
+     * 在commit方法中，认证成功后会把相关的身份标识和凭证信息关联到Subjet类的对象上。
+     *   若login成功，而commit出现错误，那么应该抛出LoginException异常；若没有出现错误则返回true。
+     *   若login失败，则commit直接返回false。
+     * 在abort方法中，如果认证成功，则不管commit方法是否成功，只要abort方法本身执行时没有出现错误，abort方法总是返回ture；
+     *   如果abort方法本身出现错误，那么抛出LoginException异常。
+     *   如果认证失败，则不管commit和abort方法是否成功完成，abort方法都直接返回false。
+     * 在logout方法中，如果注销成功返回true，否则抛出LoginException异常。
+     */
+    public static class PropertiesFileBaseLoginModule implements LoginModule{
+        private CallbackHandler callbackHandler;
+        private Subject subject;
+        private Properties props = new Properties();
+        private boolean authSucceeded = false;
+        private String authUsername = null;
+
+        @Override
+        public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
+            this.callbackHandler = callbackHandler;
+            this.subject = subject;
+            String propsFilePath = (String) options.get("properties.file.path");
+            File propsFile = new File(propsFilePath);
+            try{
+                props.load(new FileInputStream(propsFile));
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public boolean login() throws LoginException {
+            TextInputCallback usernameInputCallback = new TextInputCallback("用户名：");
+            TextInputCallback passwordInputCallback = new TextInputCallback("密码：");
+            try{
+                callbackHandler.handle(new Callback[]{usernameInputCallback,passwordInputCallback});
+            }catch (Exception e){
+                throw new LoginException(e.getMessage());
+            }
+            String username = usernameInputCallback.getText();
+            if(username == null || "".equals(username.trim())){
+                throw new AccountException("用户名为空！");
+            }
+            if(!props.containsKey(username)){
+                throw new AccountNotFoundException("该用户不存在！");
+            }
+            String password = passwordInputCallback.getText();
+            if(password == null || "".equals(password.trim())){
+                throw new CredentialException("密码为空！");
+            }
+            if(!password.equals(props.get(username))){
+                throw new FailedLoginException("用户名和密码不匹配！");
+            }
+            authSucceeded = true;
+            authUsername = username;
+            return true;
+        }
+
+        @Override
+        public boolean commit() throws LoginException {
+            if(authSucceeded){
+                this.subject.getPrincipals().add(new UserPrincipal(authUsername));
+                authUsername = null;
+                authSucceeded = false;
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean abort() throws LoginException {
+            authUsername = null;
+            if(authSucceeded){
+                authSucceeded = false;
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean logout() throws LoginException {
+            Set<Principal> principals = subject.getPrincipals();
+            Set<UserPrincipal> userPrincipals = subject.getPrincipals(UserPrincipal.class);
+            for(UserPrincipal principal:userPrincipals){
+                if(principal.getName().equals(authUsername)){
+                    principals.remove(principal);
+                    break;
+                }
+            }
+            return true;
         }
     }
 }
