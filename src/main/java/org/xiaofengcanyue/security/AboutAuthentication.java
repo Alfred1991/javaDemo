@@ -167,4 +167,49 @@ public class AboutAuthentication {
             return true;
         }
     }
+
+    /**
+     * 在一个Configuration类的对象中，一般同时维护多个配置。每个配置都有自己的名称，由一组javax.security.auth.login.AppConfigurationEntry类的对象组成。
+     * 每个AppConfigurationEntry类的对象表示一个登录模块配置项。每个配置项由三部分组成，分别是登录模块的java类、登录模块的控制标记和额外的配置参数。
+     * 配置中的每个登录模块会按照对应配置项出现的顺序依次执行。
+     * 控制标记用来说明每个登陆模块在整个登录过程中的作用，有必须、必要、充分和可选4中标记。
+     *   "必须（Required）"的登录模块被要求认证成功，但无论认证成功与否，在其后出现的登录模块仍然会被执行。
+     *   "必要（Requisite）"的模块，如果认证成功，那么在其后出现的登录模块会被执行；如果认真失败，则整个登录过程直接失败。
+     *   "充分（Sufficient）"的登录模块，如果认证成功，那么整个登录过程直接变为成功状态，后面的登录模块不会被执行；如果认证失败，则继续执行后面的登录模块。
+     *   "可选（Optional）"的登录模块，不管登录成功与否，后面的模块仍然会被执行。
+     * 只有当所有声明为"必须"和"必要"的登录模块都认证成功时，整个登录过程才是成功的。
+     * 如果声明为"充分"的登录模块认证成功，那么只要求出现在该模块之前的"必须"和"必要"模块认证成功即可。
+     * 如果没有配置"必须"或"必要"的登录模块，则至少要有一个声明为"充分"或"可选"的登录模块认证成功，整个登录过程才是成功的。
+     *
+     * 运行时只有一个Configuration类的对象起作用。
+     * 通过Configuration类的静态方法getConfiguration可以获取这个类的对象。
+     * 如果使用默认的配置方式，那么需要添加虚拟机启动参数"java.security.auth.login.config"来指定配置文件的路径。
+     */
+    public static class MyApp{
+         private LoginContext loginContext;
+         public MyApp() throws LoginException{
+             TextCallbackHandler callbackHandler = new TextCallbackHandler();
+             loginContext = new LoginContext("MyApp",callbackHandler);
+         }
+         public Subject login() throws LoginException{
+             loginContext.login();
+             return loginContext.getSubject();
+         }
+         public void logout() throws LoginException{
+             loginContext.logout();
+         }
+
+        /**
+         * 需带启动参数 -Djava.security.auth.login.config=target/classes/org/xiaofengcanyue/security/MyApp
+         */
+        public static void main(String[] args) throws Exception{
+            MyApp app = new MyApp();
+            Subject subject = app.login();
+            for(Principal p :subject.getPrincipals()){
+                System.out.println(p.getName());
+            }
+        }
+    }
+
+
 }

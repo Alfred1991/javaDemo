@@ -1,0 +1,3 @@
+MyApp {
+    org.xiaofengcanyue.security.AboutAuthentication$PropertiesFileBaseLoginModule required properties.file.path="target/classes/org/xiaofengcanyue/security/users.txt";
+};
