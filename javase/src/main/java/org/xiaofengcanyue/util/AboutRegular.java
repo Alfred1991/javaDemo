@@ -91,4 +91,13 @@ public class AboutRegular {
         }
     }
 
+    /**
+     * 或逻辑，文档中没提到
+     */
+    public static void OrLogic(){
+        Pattern pattern = Pattern.compile("apple|banana");
+        String fruit = "bananaes";
+        System.out.println(pattern.matcher(fruit).find());
+    }
+
 }

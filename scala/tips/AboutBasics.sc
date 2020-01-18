@@ -186,4 +186,12 @@ for ( x <- 1 to 2; y <- 1 to 3){ print(s"($x,$y)")}
 val powersOf2 = for(i <- 0 to 8;pow = 1 << i) yield pow
 
 
+/**
+ * while 和 do-while循环：
+ *   while (<Boolean expression>) statement
+ */
+var x2 = 10;while (x2 > 0) x2 -= 1
+
+val x3 = 0
+do println(s"Here I am, x = $x3") while (x3 > 0)
 
