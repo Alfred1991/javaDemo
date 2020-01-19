@@ -1,3 +1,5 @@
+import com.sun.javafx.iio.common.ImageLoaderImpl
+
 /**
  * 1、scala中，函数(functions)是可重用的命名表达式。函数可以参数化，可以返回一个值。
  *
@@ -199,7 +201,6 @@ def reverser(s:String) = s.reverse
 safeStringOp(null,reverser)
 safeStringOp("Ready",reverser)
 
-
 /**
  * 函数字面量(function literal或匿名函数anonymous function)可以存储在函数值和变量中，或者也可以定义为一个高阶函数调用的一部分。
  *   ([<identifier>: <type>, ...]) => <expression>
@@ -235,11 +236,96 @@ safeStringOp("Ready",_.reverse)
 def combination(x:Int,y:Int,f:(Int,Int)=>Int) = f(x,y)
 
 /**
- *
+ * 使用了两个占位符，它们会按位置替换输入参数(分别是x和y)
  */
 combination(23,12,_*_)
+def tripleOp(a:Int,b:Int,c:Int,f:(Int,Int,Int)=>Int) = f(a,b,c)
+tripleOp(23,92,14,_*_+_)
+def tripleOp1[A,B](a:A,b:A,c:A,f:(A,A,A)=>B) = f(a,b,c)
+tripleOp1[Int,Int](23,92,14,_*_+_)
+
+/**
+ * 部分应用函数
+ */
+def factorOf(x:Int,y:Int) = y % x == 0
+val f = factorOf _
+val multipleOf3 = factorOf(3,_:Int)
+multipleOf3(78)
+
+/**
+ * 使用有多个参数表的函数，应用一个参数表中的参数，另一个参数表不应用。
+ * 这种技术称为函数柯里化(currying)
+ */
+def factorOf1(x:Int)(y:Int) = y % x == 0
+val isEven = factorOf1(2) _
+val z = isEven(32)
+
+/**
+ * 指定传名参数
+ *   <identifier>: => <type>
+ * 传名参数相对于高阶函数中的函数参数，省略了函数的参数部分。因此可以传递任意参数的函数，甚至是表达式块。
+ * 在函数中使用传名参数时可直接当做返回值的类型使用，而不是当做函数类型。
+ */
+def doubles(x: => Int) = {
+  println("Now doubling" + x)
+  x * 2
+}
+doubles(5)
+def f(i:Int) = { println(s"Hello from f($i)"); i }
+doubles(f(8))
 
 
+/**
+ * 目前为止研究的所有函数都称为全函数(total functions)，因为它们能正确地支持满足输入参数类型的所有可能的值。
+ * 例如def double(x:Int) = x*2就是全函数，没有double()函数不能处理的参数x
+ *
+ * 有些函数并不能支持满足输入类型的所有可能的值，它们只能部分应用于输入数据。这种函数称为偏函数(partial functions)
+ * 例如一个函数返回输入数的平方根，如果这个输入数是负数，它就不能工作。
+ * scala的偏函数是可以对输入应用一系列case模式的函数字面量，要求输入至少与给定的模式之一匹配。
+ * 调用一个偏函数时，如果所使用的数据不能满足其中至少一个case模式，就会导致一个Scala错误。
+ */
+val statusHandler: Int => String = {
+  case 200 => "Okey"
+  case 400 => "Your Error"
+  case 500 => "Our error"
+  case other => s"$other not support"
+}
+statusHandler(200)
+statusHandler(800)
+
+
+/**
+ * 用函数字面量块调用高阶函数
+ */
+val uuid = java.util.UUID.randomUUID().toString
+val timedUUID = safeStringOp(uuid, s =>
+{
+  val now = System.currentTimeMillis()
+  val timed = s.take(24) + now
+  timed.toUpperCase()
+})
+
+def safeStringOp1(s:String)(f:String => String) = {
+  if (s != null) f(s) else s
+}
+val timedUUID1 = safeStringOp1(uuid) {
+  s =>
+    val now = System.currentTimeMillis()
+    val timed = s.take(24) + now
+    timed.toUpperCase()
+}
+
+def timer[A](f: => A): A = {
+  def now = System.currentTimeMillis()
+  val start = now;val a = f;val end = now;
+  println(s"Executed in ${end - start} ms")
+  a
+}
+val veryRandomAmount = timer{
+  util.Random.setSeed(System.currentTimeMillis())
+  for( i <- 1 to 100000 ) util.Random.nextDouble()
+  util.Random.nextDouble()
+}
 
 
 
