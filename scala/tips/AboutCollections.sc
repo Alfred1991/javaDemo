@@ -62,6 +62,13 @@ first.tail == Nil
 val second = 2 :: first
 second.tail == first
 
+/**
+  * 映射方法是指 取一个函数，将它应用于列表中的每个成员，再把结果收集到一个新列表。
+  */
+List(0,1,0) collect {case 1 => "ok"}
+List("milk,tea") flatMap (_.split(','))
+List("milk","tea") map (_.toUpperCase)
+
 
 /**
  * 2、set是一个不可变的无序集合，其工作与List类似。
