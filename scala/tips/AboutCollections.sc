@@ -69,6 +69,45 @@ List(0,1,0) collect {case 1 => "ok"}
 List("milk,tea") flatMap (_.split(','))
 List("milk","tea") map (_.toUpperCase)
 
+/**
+ * 归约列表将列表收缩为单个值。
+ */
+val num1 = numbers.max
+val num2 = numbers.min
+val num3 = numbers.product
+val num4 = numbers.sum
+val validations = List(true,true,false,true,true,true)
+val valid1 = !(validations contains false)
+val valid2 = validations forall (_ == true)
+val valid3 = validations exists {_==false}
+
+/**
+ * 归约操作只需要迭代处理一个累加器（accumulator）变量，这个变量包含目前为止的当前结果。
+ */
+def contains(x:Int, l:List[Int]):Boolean = {
+  var a:Boolean = false
+  for (i <- l){ if(!a) a = (i == x) }
+  a
+}
+
+def boolReduce(l:List[Int],start:Boolean)(f:(Boolean,Int) => Boolean)={
+  var a = start
+  for(i <- l) a = f(a,i)
+  a
+}
+val included = boolReduce(List(46,19,92),false){ (a,i) => if(a) a else (i == 19)}
+
+def reduceOp[A,B](l:List[A],start:B)(f:(B,A) => B):B = {
+  var a = start
+  for (i <- l) a = f(a,i)
+  a
+}
+val include = reduceOp(List(46,19,92),false){ (a,i) => if (a) a else (i == 19)}
+val answer = reduceOp(List(11.3,23.5,7.2),0.0){_+_}
+//flod reduce 和 scan
+val include1 = List(46,19,92).foldLeft(false){ (a,i) => if (a) a else (i == 19) }
+val answer1 = List(46,19,92).reduceLeft(_+_)
+
 
 /**
  * 2、set是一个不可变的无序集合，其工作与List类似。
@@ -88,6 +127,61 @@ val hasWhite = colorMap.contains("white")
 for (pairs <- colorMap) { println(pairs) }
 
 
+/**
+ * 4、转换集合
+ */
+List(24,99,104).mkString(",")
+List('f','t').toBuffer //将一个不可变集合转换为一个可变的集合
+Map("a" -> 1,"b" -> 2).toList
+Set( 1 -> true,3 -> true).toMap
+List(2,5,5,3,2).toSet
+List(2,5,5,3,2).toString
+
+
+/**
+ * 默认情况下，scala的集合和java的集合之间是不兼容的。
+ */
+import scala.jdk.CollectionConverters._
+List(12,29).asJava
+new java.util.ArrayList(5).asScala
+
+
+/**
+ * 使用集合的模式匹配
+ */
+val statuses = List(500,404)
+//利用模式哨卫
+val msg = statuses.head match {
+  case x if x<500 => "okay"
+  case _ => "whoah, an error"
+}
+//由于集合支持等号(==)，它们支持模式匹配
+val msg = statuses match {
+  case List(404,500) => "not found & error"
+  case List(500,404) => "error & not found"
+  case List(404,500) => "okay"
+  case _ => "not sure what happened"
+}
+//值绑定
+val msg = statuses match {
+  case List(500,x) => s"Error followed by $x"
+  case List(e,x) => s"$e was followed by $x"
+}
+//列表可分解为表头元素和表尾，因此可以匹配表头和表尾
+val head = List('r','g','b') match {
+  case x :: xs => x
+  case Nil => ' '
+}
+//元组不是正式的集合，但也支持模式匹配和值绑定
+val code=('h',204,true) match {
+  case (_,_,false) => 501
+  case ('c',_,true) => 302
+  case ('h',x,true) => x
+  case (c,x,true) => {
+    println(s"Did ")
+  }
+
+}
 
 
 
