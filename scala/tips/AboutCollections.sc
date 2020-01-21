@@ -327,4 +327,17 @@ val lowercase = words find (w => w == w.toLowerCase())
 val filtered = lowercase filter ( _ endsWith "ible" ) map (_.toUpperCase())
 val exactSize = filtered filter (_.size > 15) map (_.size)
 
+/**
+  * Option安全操作
+  */
+def nextOption = if(util.Random.nextInt() > 0) Some(1) else None
+val a2 = nextOption
+val b2 = nextOption
 
+nextOption.fold(-1)(x => x)
+nextOption.getOrElse(5)
+nextOption.orElse(nextOption)
+nextOption match {
+  case Some(x) => x;
+  case None => -1
+}
