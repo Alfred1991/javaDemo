@@ -120,8 +120,8 @@ sum()
  * 参数组：
  *   scala可以把参数表分解为参数组(parameter groups)，每个参数组分别用小括号分隔
  */
-def max(x:Int)(y:Int) = if (x>y) x else y
-val larger = max(20)(39)
+def max1(x:Int)(y:Int) = if (x>y) x else y
+val larger = max1(20)(39)
 
 /**
  * 类型参数
@@ -176,10 +176,10 @@ val myDouble:(Int)=>Int = double
 myDouble(5)
 val myDoubleCopy = myDouble
 myDoubleCopy(5)
-def max(a:Int,b:Int) = if (a>b) a else b
-val maximize:(Int,Int) => Int = max
+def max2(a:Int,b:Int) = if (a>b) a else b
+val maximize:(Int,Int) => Int = max2
 maximize(50,30)
-def logStart() = "=" * 50 + "\nStarting NOW\n" + "*" * 50
+def logStart() = {"=" * 50 + "\nStarting NOW\n" + "*" * 50}
 val start: () => String = logStart
 println(start)
 
@@ -209,7 +209,7 @@ safeStringOp("Ready",reverser)
 val doubler = (x:Int) => x * 2
 val double1 = doubler(22)
 val greeter = (name:String) => s"Hello, $name"
-val hi = greeter("World")
+val hi4 = greeter("World")
 val start1 = () => "=" * 50 + "\nStarting NOW\n" + "*" * 50
 
 /**
@@ -230,7 +230,7 @@ safeStringOp("Ready",s => s.reverse)
  *   1、函数的显式类型在字面量之外指定。
  *   2、参数最多只使用一次。
  */
-val doubler: Int => Int = _ * 2
+val doubler1: Int => Int = _ * 2
 safeStringOp(null,_.reverse)
 safeStringOp("Ready",_.reverse)
 def combination(x:Int,y:Int,f:(Int,Int)=>Int) = f(x,y)

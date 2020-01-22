@@ -98,7 +98,7 @@ val max = if(x > y) x else y
  *   }
  */
 val xx = 10; val yy = 20
-val max = xx > yy match {
+val max1 = xx > yy match {
   case true => xx
   case false => yy
 }

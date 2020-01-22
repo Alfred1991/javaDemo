@@ -143,7 +143,7 @@ List(2,5,5,3,2).toString
 /**
  * 5、默认情况下，scala的集合和java的集合之间是不兼容的。
  */
-import scala.jdk.CollectionConverters._
+import collection.JavaConverters._
 List(12,29).asJava
 new java.util.ArrayList(5).asScala
 
@@ -285,9 +285,9 @@ val hexChars = to('A','Z').take(20).toList
 
 
 /**
- * 11、一元集合(monadic)支持类似Iterable中的变换操作，但是包含的元素不能多于1个。
+ * 一元集合(monadic)支持类似Iterable中的变换操作，但是包含的元素不能多于1个。
  *
- * Option类型表示一个值的存在或不存在。
+ * 11、Option类型表示一个值的存在或不存在。
  * 这个值可能没有，因此可以包装在一个Option集合中，从而清楚地指示它有可能不存在。
  * Option类型本身没有实现，而是依赖两个子类型提供具体实现：Some和None。
  * Some是一个类型参数化的单元素集合，None是一个空集合。None类型没有类型参数，因为它永远不包含任何内容。
@@ -341,3 +341,121 @@ nextOption match {
   case Some(x) => x;
   case None => -1
 }
+
+/**
+  * 12、util.Try集合将错误处理转变为集合管理。
+  * 它提供一种机制来捕获给定函数参数中发生的错误，并返回该错误，如果函数成功则返回结果。
+  * util.Try类型和Option类似，没有具体实现，而是有两个已实现的子类型Success和Failure。
+  * Success类型包含相应表达式的返回值（若未抛出异常），Failure类型包含锁所抛出的Exception。
+  */
+def loopAndFail(end:Int,failAt:Int):Int = {
+  for( i <- 1 to end){
+    println(s"$i) ")
+    if(i == failAt) throw new Exception("Too many iterations")
+  }
+  end
+}
+val t1 = util.Try(loopAndFail(2,3))
+val t2 = util.Try(loopAndFail(4,2))
+
+val input = " 123 "
+val result = util.Try(input.toInt) orElse util.Try(input.trim.toInt)
+result foreach { r => println(s"Parsed '$input' to $r !")}
+val x1 = result match {
+  case util.Success(x) => Some(x)
+  case util.Failure(ex) => {
+    println(s"Couldn`t parse input '$input'")
+    None
+  }
+}
+
+
+/**
+  * 13、Concurrent.Future会发起一个后台任务。
+  * 它表示一个可能的值，并提供了安全操作来串链其他操作或者抽取值。
+  * future的值不是立即可用的，因为创建future时后台任务可能仍在工作。
+  *
+  * 默认地，Scala代码在JVM的“主”线程中运行，不过可以支持在并发线程中运行后台任务。
+  * 调用future并提供一个函数会在一个单独的线程中执行该函数，而当前线程仍继续操作。
+  * 因此，future除了作为线程最终返回值的一个一元容器，还是后台Java线程的一个监视器。
+  *
+  */
+import concurrent.ExecutionContext.Implicits.global
+val f1 = concurrent.Future { println("hi") }
+
+val f2 = concurrent.Future{Thread.sleep(5000);println("hi")}
+println("waiting")
+
+/**
+  * 异步处理future
+  *   可以为一个future串链一个函数或另一个future，从而在当前future完成之后执行，并把第一个future的成功结果传递到这个新函数或future。
+  *   以此方式处理的future最后会返回一个util.Try。其中包含函数返回值或一个异常。
+  *   如果成功（有返回值），则将把该返回值传入串链的函数或future，并转换为一个future来返回它自己的成功或失败结果。
+  *   如果是失败（即抛出一个异常），则不会执行另外的函数或future。
+  *   要接收一个future的最终结果，或者一个future链的最终结果，可以指定一个回调函数。
+  */
+import concurrent.ExecutionContext.Implicits.global
+import concurrent.Future
+def nextFtr(i:Int = 0) = Future{
+  def rand(x:Int) = util.Random.nextInt(x)
+  Thread.sleep(rand(5000))
+  if(rand(3) > 0) (i + 1) else throw new Exception
+}
+
+nextFtr(1) fallbackTo nextFtr(2)
+nextFtr(1) flatMap nextFtr
+nextFtr(1) map (_ * 2)
+nextFtr() onComplete {_ getOrElse 0}
+nextFtr() onFailure { case _ => "Error!" }
+nextFtr() onSuccess { case x => s"Got $x" }
+concurrent.Future sequence List(nextFtr(1),nextFtr(5))
+
+import concurrent.Future
+def cityTemp(name:String):Double = {
+  val url = "http://api.openweathermap.org/data/2.5/weather"
+  val cityUrl = s"$url?q=$name"
+  val json = io.Source.fromURL(cityUrl).mkString.trim
+  val pattern = """.*"temp":([\d.]+).*""".r
+  val pattern(temp) = json
+  temp.toDouble
+}
+val cityTemps = Future sequence Seq(
+  Future(cityTemp("Fresno")),Future(cityTemp("Tempe"))
+)
+cityTemps onSuccess{
+  case Seq(x,y) if x>y => println(s"Fresno is warmer: $x K")
+  case Seq(x,y) if y>x => println(s"Tempe is warmer: $y K")
+}
+
+/**
+  * 要阻塞当前线程并等待另一个线程完成，需要使用concurrent.Await.result()，它取后台线程和一个最大等待时间作为参数。
+  * 如果future在给定时间以内完成，则返回其结果，若不能按时完成则会导致一个java.util.concurrent.TimeoutException。
+  */
+import concurrent.duration._
+val maxTime = Duration(10,SECONDS)
+val amount = concurrent.Await.result(nextFtr(5),maxTime)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
