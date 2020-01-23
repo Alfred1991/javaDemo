@@ -435,27 +435,3 @@ import concurrent.duration._
 val maxTime = Duration(10,SECONDS)
 val amount = concurrent.Await.result(nextFtr(5),maxTime)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
