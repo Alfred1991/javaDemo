@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.xiaofengcanyue</groupId>
+    <artifactId>springbootDemo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- 从parent继承了：
+      1、java1.6作为默认编译版本
+      2、一个依赖管理模块，让你可以省略<version>
+      3、一些resource filtering
+      4、一些插件配置
+      4、针对application.properties和application.yml的resource filtering。
+      因为spring默认的占位符使用 ${...}，因此maven的filter占位符被设置为 @...@ } -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.1.RELEASE</version>
+    </parent>
+
+    <!--
+        spring boot auto-configuration 尝试根据jar包依赖自动配置spring application。
+        例如，如果HSQLDB在classpath中，而你又没有手动配置任何database connection beans，
+        则会自动配置一个in-memory database。
+    -->
+    <dependencies>
+        <!-- Starters 是一组方便的依赖，可提供一站式的技术支持-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
