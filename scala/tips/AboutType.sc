@@ -150,8 +150,8 @@ check2(new Check2[Volvo2](new Volvo2()))
  * 可以在对象定义前面增加package关键字来定义包对象。
  */
 //located on com/oreilly/package.scala
-package object oreilly {
-  type Mappy[A,B] = collection.mutable.HashMap[A,B]
-}
+//package object oreilly {
+//  type Mappy[A,B] = collection.mutable.HashMap[A,B]
+//}
 
 
