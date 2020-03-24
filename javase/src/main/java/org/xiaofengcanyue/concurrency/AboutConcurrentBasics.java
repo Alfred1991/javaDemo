@@ -1,4 +1,4 @@
-package org.xiaofengcanyue.concurrent;
+package org.xiaofengcanyue.concurrency;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;

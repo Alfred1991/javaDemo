@@ -1,4 +1,4 @@
-package org.xiaofengcanyue.concurrent;
+package org.xiaofengcanyue.concurrency;
 
 import java.io.IOException;
 import java.io.InputStream;

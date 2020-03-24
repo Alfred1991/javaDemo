@@ -1,8 +1,5 @@
-package org.xiaofengcanyue.concurrent;
+package org.xiaofengcanyue.concurrency;
 
-
-import java.nio.charset.Charset;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 虚拟机启动后，通常只有一个普通线程来运行程序代码，该线程用来启动主java类的main方法运行。
