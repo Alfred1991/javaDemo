@@ -1,4 +1,4 @@
-package org.xiaofengcanyue.concurrency;
+package org.xiaofengcanyue.concurrent;
 
 import javafx.print.Printer;
 import sun.misc.IOUtils;
