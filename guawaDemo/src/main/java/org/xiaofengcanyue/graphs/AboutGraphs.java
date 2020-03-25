@@ -46,7 +46,7 @@ public class AboutGraphs {
      *   2、optimization hints，例如：
      *     初始容量
      */
-    public static void CreateAnInstance(){
+    public static void createAnInstance(){
         // Creating mutable graphs
         MutableGraph<Integer> graph = GraphBuilder.undirected().build();
     }
@@ -65,7 +65,7 @@ public class AboutGraphs {
      * 当需要保存可变数据时，最好创建一个node到可变数据的map。
      *
      */
-    public static void Example(Graph graph,ValueGraph valueGraph,Network network,Object node,Object u,Object v){
+    public static void example(Graph graph,ValueGraph valueGraph,Network network,Object node,Object u,Object v){
         graph.nodes().contains(node);
 
         // This is the preferred syntax since 23.0 for all graph types.

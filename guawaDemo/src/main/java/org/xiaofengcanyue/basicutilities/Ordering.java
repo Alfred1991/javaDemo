@@ -19,7 +19,7 @@ public class Ordering {
 
     }
 
-    public static void Creation(){
+    public static void creation(){
         com.google.common.collect.Ordering.natural();
         com.google.common.collect.Ordering.usingToString();
         com.google.common.collect.Ordering.from(new Comparator<Object>() {
@@ -36,7 +36,7 @@ public class Ordering {
         };
     }
 
-    public static void Chaining(com.google.common.collect.Ordering order){
+    public static void chaining(com.google.common.collect.Ordering order){
         order.reverse();
         order.nullsFirst();
         order.compound(new Comparator() {
@@ -65,7 +65,7 @@ public class Ordering {
      * and then sorting the remaining values by natural string ordering.
      * @return
      */
-    public static com.google.common.collect.Ordering Example(){
+    public static com.google.common.collect.Ordering example(){
         com.google.common.collect.Ordering<Foo> ordering
                 = com.google.common.collect.Ordering.
                 natural().
@@ -78,7 +78,7 @@ public class Ordering {
         return ordering;
     }
 
-    public static void Application(com.google.common.collect.Ordering order){
+    public static void application(com.google.common.collect.Ordering order){
         order.greatestOf(new ArrayList(),1);
         order.isOrdered(new ArrayList());
         order.sortedCopy(new ArrayList());

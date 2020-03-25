@@ -13,7 +13,7 @@ public class AboutCaches {
     /**
      * cache和concurrentMap类似，但cache会主动移除元素。
      */
-    public static void CreateCaches(){
+    public static void createCaches(){
 
         /**
          * LoadingCache是由CacheLoader创建元素的Cache
@@ -56,7 +56,7 @@ public class AboutCaches {
     /**
      * cache有三种evction type:size-based,time-based,reference-based
      */
-    public static void AboutEviction(){
+    public static void aboutEviction(){
 
         /**
          * 指定weigher进行精确的size-based管理

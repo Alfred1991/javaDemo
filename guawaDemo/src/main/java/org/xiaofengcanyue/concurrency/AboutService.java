@@ -17,7 +17,7 @@ public class AboutService {
     /**
      * 常用抽象service
      */
-    public static void AboutAbstractService(){
+    public static void aboutAbstractService(){
         new AbstractIdleService(){
 
             @Override
@@ -67,7 +67,7 @@ public class AboutService {
     /**
      * ServiceManager可同时管理多个service
      */
-    public static void AboutServiceManager(){
+    public static void aboutServiceManager(){
         ServiceManager sm = new ServiceManager(null);
         sm.startAsync();
         sm.stopAsync();

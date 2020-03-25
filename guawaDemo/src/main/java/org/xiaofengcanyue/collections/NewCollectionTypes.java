@@ -22,7 +22,7 @@ public class NewCollectionTypes {
      * 此外还提供类似Map<E,Integer>的额外操作:count,entrySet,elementSet等
      * multiset的内存消耗和元素distinct elements呈线性相关。
      */
-    public static void AboutMultiSet(){
+    public static void aboutMultiSet(){
         Multiset<String> set = TreeMultiset.create();
         set = HashMultiset.create();
         set = LinkedHashMultiset.create();
@@ -38,7 +38,7 @@ public class NewCollectionTypes {
      * multimap接口一般呈现出第一种方式，asMap可让其以方式二呈现。
      * multimap中不建议包含value为null的键值对。
      */
-    public static void AboutMultiMap(){
+    public static void aboutMultiMap(){
         ListMultimap<String,Integer> treeListMultimap = MultimapBuilder.treeKeys().arrayListValues().build();
         SetMultimap<Integer,MyEnum> hashMultimap = MultimapBuilder.hashKeys().enumSetValues(MyEnum.class).build();
 
@@ -63,7 +63,7 @@ public class NewCollectionTypes {
      *   2、确保values都是唯一的，将values作为一个set。
      * put重复值会触发IllegalArgumentException。BiMap.forcePut(key,value)可以强制覆盖重复的value。
      */
-    public static void AboutBiMap(){
+    public static void aboutBiMap(){
         HashBiMap.create();
         ImmutableBiMap.of();
         EnumBiMap.<MyEnum,MyEnum>create(MyEnum.class,MyEnum.class);
@@ -73,7 +73,7 @@ public class NewCollectionTypes {
     /**
      * table两个key的map，一个row key，一个column key。
      */
-    public static void AboutTable(){
+    public static void aboutTable(){
         Table<Vertex, Vertex, Double> weightedGraph = HashBasedTable.create();
         Vertex v1=null,v2=null,v3=null;
         weightedGraph.put(v1, v2, 4d);
@@ -93,7 +93,7 @@ public class NewCollectionTypes {
      * ClassToInstanceMap的值可以是多种类型的。
      * Technically, ClassToInstanceMap<B> implements Map<Class<? extends B>, B>
      */
-    public static void AboutClassToInstanceMap(){
+    public static void aboutClassToInstanceMap(){
         ClassToInstanceMap<Number> numberDefaults = MutableClassToInstanceMap.create();
         numberDefaults.putInstance(Integer.class, Integer.valueOf(0));
     }
@@ -106,7 +106,7 @@ public class NewCollectionTypes {
      * you must first preprocess ranges with Range.canonical(DiscreteDomain),
      * e.g. with DiscreteDomain.integers().
      */
-    public static void AboutRangeSet(){
+    public static void aboutRangeSet(){
         RangeSet<Integer> rangeSet = TreeRangeSet.create();
         rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
         rangeSet.add(Range.closedOpen(11, 15)); // disconnected range: {[1, 10], [11, 15)}
@@ -121,7 +121,7 @@ public class NewCollectionTypes {
      * rangemap 表示 disjoint,noempty的ranges 到 值 的映射的集合。
      * rangemap不会想rangeset那样合并range。
      */
-    public static void AboutRangeMap(){
+    public static void aboutRangeMap(){
         RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
         rangeMap.put(Range.closed(1, 10), "foo"); // {[1, 10] => "foo"}
         rangeMap.put(Range.open(3, 6), "bar"); // {[1, 3] => "foo", (3, 6) => "bar", [6, 10] => "foo"}

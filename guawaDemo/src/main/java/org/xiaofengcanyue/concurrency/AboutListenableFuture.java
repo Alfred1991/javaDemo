@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  */
 public class AboutListenableFuture {
 
-    public static void AboutCreationg(){
+    public static void aboutCreationg(){
         ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
         ListenableFuture<Object> explosion = service.submit(
                 new Callable<Object>() {
@@ -66,7 +66,7 @@ public class AboutListenableFuture {
     /**
      * ListenableFuture常用于异步的处理链
      */
-    public static void AboutApplication(){
+    public static void aboutApplication(){
         /**
 
         ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);

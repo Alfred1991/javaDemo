@@ -27,7 +27,7 @@ public class CollectionUtilities {
 
     }
 
-    public static void AboutStaticConstructors(){
+    public static void aboutStaticConstructors(){
         List<String> list = Lists.newArrayList();
         Map<String,String> map = Maps.newLinkedHashMap();
 
@@ -46,7 +46,7 @@ public class CollectionUtilities {
      * Iterables类的多数操作都是lazy的。
      * 从Guava12以后，Iterables被FluentIterable所补充,FluentIterable包装了一个Iterable并提供一些"fluent"方式的操作。
      */
-    public static void AboutIterables(){
+    public static void aboutIterables(){
         Iterable<Integer> concatenated = Iterables.concat(
                 Ints.asList(1, 2, 3),
                 Ints.asList(4, 5, 6));
@@ -59,14 +59,14 @@ public class CollectionUtilities {
 
     }
 
-    public static void AboutLists(){
+    public static void aboutLists(){
         List<Integer> countUp = Ints.asList(1, 2, 3, 4, 5);
         List<Integer> countDown = Lists.reverse(countUp); // {5, 4, 3, 2, 1}
 
         List<List<Integer>> parts = Lists.partition(countUp, 2); // {{1, 2}, {3, 4}, {5}}
     }
 
-    public static void AboutSets(){
+    public static void aboutSets(){
         Set<String> wordsWithPrimeLength = ImmutableSet.of("one", "two", "three", "six", "seven", "eight");
         Set<String> primes = ImmutableSet.of("two", "three", "five", "seven");
 
@@ -85,7 +85,7 @@ public class CollectionUtilities {
 // {{}, {"gerbil"}, {"hamster"}, {"gerbil", "hamster"}}
     }
 
-    public static void AboutMaps(){
+    public static void aboutMaps(){
         ImmutableMap<Integer, String> stringsByIndex = Maps.uniqueIndex(new ArrayList<String>(), new Function<String, Integer>() {
             public Integer apply(String string) {
                 return string.length();
@@ -105,12 +105,12 @@ public class CollectionUtilities {
     /**
      * The Guava utilities on BiMap live in the Maps class, since a BiMap is also a Map.
      */
-    public static void AboutBiMap(){
+    public static void aboutBiMap(){
         Maps.synchronizedBiMap(HashBiMap.create());
         Maps.unmodifiableBiMap(HashBiMap.create());
     }
 
-    public static void AboutMultiSets(){
+    public static void aboutMultiSets(){
         Multiset<String> multiset1 = HashMultiset.create();
         multiset1.add("a", 2);
 
@@ -137,7 +137,7 @@ public class CollectionUtilities {
         Multisets.unmodifiableSortedMultiset(TreeMultiset.create());
     }
 
-    public static void AboutMultimaps(){
+    public static void aboutMultimaps(){
         ImmutableSet<String> digits = ImmutableSet.of(
                 "zero", "one", "two", "three", "four",
                 "five", "six", "seven", "eight", "nine");
@@ -188,7 +188,7 @@ public class CollectionUtilities {
                 });
     }
 
-    public static void AboutTables(){
+    public static void aboutTables(){
         // use LinkedHashMaps instead of HashMaps
         Table<String, Character, Integer> table = Tables.newCustomTable(
                 Maps.<String, Map<Character, Integer>>newLinkedHashMap(),

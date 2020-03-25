@@ -59,7 +59,7 @@ public class CollectionExtensionHelpers {
     /**
      * Note: the PeekingIterator returned by Iterators.peekingIterator does not support remove() calls after a peek()
      */
-    public static void AboutPeekingIterator(){
+    public static void aboutPeekingIterator(){
         List<String> source = Lists.newArrayList();
         List<String> result = Lists.newArrayList();
         PeekingIterator<String> iter = Iterators.peekingIterator(source.iterator());
@@ -95,7 +95,7 @@ public class CollectionExtensionHelpers {
     /**
      * Note that you must additionally pass an initial value, or null if the iterator should end immediately.
      */
-    public static void AboutAbstractSequenceIterator(){
+    public static void aboutAbstractSequenceIterator(){
         Iterator<Integer> powersOfTwo = new AbstractSequentialIterator<Integer>(1) { // note the initial value!
             /**
              * Here, we implement the method computeNext(T), which accepts the previous value as an argument.
