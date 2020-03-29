@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 关于gc：https://blog.csdn.net/renfufei/column/info/14851
+ */
 public class AboutHotSpot {
 
     public static void main(String[] args) {

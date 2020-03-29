@@ -195,3 +195,4 @@ var x2 = 10;while (x2 > 0) x2 -= 1
 val x3 = 0
 do println(s"Here I am, x = $x3") while (x3 > 0)
 
+Symbol
