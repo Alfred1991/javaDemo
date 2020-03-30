@@ -4,6 +4,12 @@
 val value:String = "我是值"
 var variable:String = "我是变量"
 
+/**
+ * 符号symbol相当于java中的intern，任意同名的symbols都指向同一个Symbol对象。
+ */
+val symbol = 'aSymbol
+println(symbol == 'aSymbol)
+println(symbol == Symbol("aSymbol"))
 
 /**
  * 2、字符串内插：

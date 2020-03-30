@@ -104,9 +104,11 @@ def greet2(name: String,prefix: String = "") = s"$prefix $name"
 val greeting4 = greet2("Paul")
 
 /**
- * Vararg参数
+ * Varargs参数
  *   这是一个函数参数，可以匹配调用者的0个或多个实参。
  *   要标志一个参数匹配一个或多个输入实参，在函数定义中需要该参数类型后面增加一个星号(*)
+ *
+ * 使用 _* 来适配sequence到Varargs参数。
  */
 def sum(items: Int*):Int = {
   var total = 0
@@ -115,6 +117,7 @@ def sum(items: Int*):Int = {
 }
 sum(10,20,30)
 sum()
+sum(List(10,20,30):_*)
 
 /**
  * 参数组：
@@ -331,7 +334,21 @@ val veryRandomAmount = timer{
   util.Random.nextDouble()
 }
 
+/**
+ * 定义一个可抛出异常的函数
+ */
+@throws(classOf[Exception])
+def play: Unit = {
+  //exception throwing code here
+}
 
-
-
-
+/**
+ * 定义fluent style的方法
+ */
+object Something {
+  def setFirstName(str:String): this.type ={
+    println(str)
+    this
+  }
+}
+Something.setFirstName("123").setFirstName("321")

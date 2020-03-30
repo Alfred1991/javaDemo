@@ -59,6 +59,8 @@ class DBConncetion{
 /**
  * 使用对象的命令行应用。
  * scala使用对象中的一个"main"方法作为应用的入口点，它取一个字符串数组作为输入参数。
+ *
+ * 另一种应用程序入口的方式是继承App trait
  */
 object Date {
   def main(args:Array[String]): Unit ={

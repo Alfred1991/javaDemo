@@ -260,6 +260,8 @@ m2.remove(1);println(m2)
  *   密封类会限制一个类的子类必须位于父类所在的同一个文件中。
  */
 
-
-
+/**
+ * 当api需要传入Class时，不能像java那样使用 .class方法，而是要用 classOf 方法
+ */
+ClassLoader.getSystemClassLoader.loadClass("").asSubclass(classOf[String])
 
