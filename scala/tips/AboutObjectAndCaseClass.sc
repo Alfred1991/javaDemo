@@ -114,9 +114,30 @@ h match {
  */
 
 
-
-
-
-
+/**
+ * 使用scala实现工厂方法
+ */
+trait Animal {
+  def speak
+}
+object Animal {
+  private class Dog extends Animal {
+    override def speak { println("woof") }
+  }
+  private class Cat extends Animal {
+    override def speak { println("meow") }
+  }
+  // the factory method
+  def apply(s: String): Animal = {
+    if (s == "dog")
+      new Dog
+    else
+      new Cat
+  }
+}
+val cat = Animal("cat") // creates a Cat
+val dog = Animal("dog") // creates a Dog
+cat.speak
+dog.speak
 
 
